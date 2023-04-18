@@ -1,0 +1,47 @@
+version: '3'
+
+services:
+  app:
+    build: .
+    environment:
+      PORT: 8080
+      DATABASE_URL: postgres://user:password@postgres_db:5432/products_db?sslmode=disable
+      REDIS_URL: redis://redis_db:6379
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres_db
+      - redis_db
+    volumes:
+      - .:/app
+    networks:
+      - app_net
+
+  postgres_db:
+    image: postgres:13-alpine
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: products_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app_net
+
+  redis_db:
+    image: redis:7
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - app_net
+
+networks:
+  app_net:
+
+volumes:
+  postgres_data:
+  redis_data:
