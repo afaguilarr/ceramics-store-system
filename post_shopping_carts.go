@@ -6,6 +6,12 @@ import (
 	"time"
 )
 
+// upsertShoppingCartHandler handles the HTTP request for upserting a shopping cart into Redis.
+//
+// It decodes the request body into a `ShoppingCart` struct, and then upserts it into Redis using the
+// `IPAddress` as the key. If the upsert succeeds, the function returns the saved shopping cart as a JSON
+// response. If any errors occur during decoding, upserting, or encoding the response, the function returns
+// an HTTP error with an appropriate status code and message.
 func (sch ShoppingCartsHandler) upsertShoppingCartHandler(w http.ResponseWriter, r *http.Request) {
 	var shoppingCart ShoppingCart
 	err := json.NewDecoder(r.Body).Decode(&shoppingCart)

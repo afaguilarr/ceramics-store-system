@@ -75,6 +75,8 @@ func main() {
 	r.HandleFunc("/products/{id}", ph.getProduct).Methods(http.MethodGet)
 	// Define endpoint for upserting a shopping cart in redis
 	r.HandleFunc("/shopping_carts", sch.upsertShoppingCartHandler).Methods(http.MethodPost)
+	// Define endpoint for getting a shopping cart from redis
+	r.HandleFunc("/shopping_carts", sch.getShoppingCartHandler).Methods(http.MethodGet)
 
 	// Start server
 	log.Println("Server started on :8080")
